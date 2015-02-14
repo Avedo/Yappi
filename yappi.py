@@ -116,96 +116,327 @@ class Yappi(inkex.Effect):
         layer.set(inkex.addNS('label', 'inkscape'), 'Basic Shape')
         layer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
 
-        # ... calculate the dimensions of the basic shape ...
-        wingHeight = width / 23
+        # ... define and calculate the dimensions (in mm) of the basic shape ...
+        cubeWidth = self.unittouu("8.5 cm")
+        cubeHeight = self.unittouu("2.5 cm")
+        cubeDepth = self.unittouu("5.6 cm")
 
-        if wingHeight * 19 > height:
-            wingHeight = height / 19
-
-        wingWidth = wingHeight * 5
+        wingHeight = self.unittouu("1.0 cm")
+        smallWingWidth = cubeDepth - 2 * wingHeight
+        largeWingWidth = cubeWidth - 2 * wingHeight
 
         padding = wingHeight
-
-        blockWidth = blockHeight = wingWidth
         borderWidth = 1
 
+        raspiUsbWidth = self.unittouu("1.5 cm")
+        raspiUsbHeight = self.unittouu("1.6 cm")
+        raspiEthWidth = self.unittouu("1.6 cm")
+        raspiEthHeight = self.unittouu("1.4 cm")
+        raspiSoundWidth = raspiSoundHeight = self.unittouu("0.7 cm")
+        raspiHdmiWidth = self.unittouu("1.6 cm")
+        raspiHdmiHeight = self.unittouu("0.5 cm")
+        raspiMusbWidth = self.unittouu("0.9 cm")
+        raspiMusbHeight = self.unittouu("0.4 cm")
+        raspiSdCardWidth = self.unittouu("1.2 cm")
+        raspiSdCardHeight = self.unittouu("0.3 cm")
+
+        raspiUsb1OffsetX = padding + wingHeight + cubeHeight + self.unittouu("0.2 cm")
+        raspiUsb1OffsetY = padding + wingHeight + cubeHeight - self.unittouu("0.3 cm")
+        raspiUsb2OffsetX = padding + wingHeight + cubeHeight + self.unittouu("2.0 cm")
+        raspiUsb2OffsetY = padding + wingHeight + cubeHeight - self.unittouu("0.3 cm")
+        raspiEthOffsetX = padding + wingHeight + cubeHeight + self.unittouu("3.8 cm")
+        raspiEthOffsetY = padding + wingHeight + cubeHeight - self.unittouu("0.3 cm")
+        raspiSoundOffsetX = padding + wingHeight + cubeHeight + cubeDepth + self.unittouu("0.3 cm")
+        raspiSoundOffsetY = padding + wingHeight + cubeHeight + self.unittouu("3.5 cm")
+        raspiHdmiOffsetX = padding + wingHeight + cubeHeight + cubeDepth + self.unittouu("0.3 cm")
+        raspiHdmiOffsetY = padding + wingHeight + cubeHeight + self.unittouu("6.0 cm")
+        raspiMusbOffsetX = padding + wingHeight + cubeHeight + cubeDepth + self.unittouu("0.3 cm")
+        raspiMusbOffsetY = padding + wingHeight + cubeHeight + self.unittouu("7.9 cm")
+        raspiSdCardOffsetX = padding + wingHeight + cubeHeight + self.unittouu("2.2 cm")
+        raspiSdCardOffsetY = padding + wingHeight + cubeHeight + cubeWidth
+
         # ... and the headline boxes.
-        boxWidth = blockWidth
-        boxHeight = blockHeight / 4
+        boxWidth = cubeWidth
+        boxHeight = cubeHeight / 4
         boxBorderColor = 'ffffff'
         boxBorder = 0
         
         # Draw the basic shape (cutting edges), ...
         self.drawPolygon(
             borderWidth, self.borderColor, self.mainBgColor, False, layer,
-            (padding + wingHeight, padding + wingHeight + blockHeight),
-            (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight),
-            (padding + 2 * blockWidth, padding + blockHeight),
-            (padding + 2 * blockWidth, padding + 2 * wingHeight),
-            (padding + 2 * wingHeight + 2 * blockWidth, padding),
-            (padding + 3 * blockWidth, padding),
-            (padding + 2 * wingHeight + 3 * blockWidth, padding + 2 * wingHeight),
-            (padding + 2 * wingHeight + 3 * blockWidth, padding + blockHeight),
-            (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
-            (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
-            (padding + wingHeight + 4 * blockWidth, padding + wingHeight + blockHeight),
-            (padding + wingHeight + 4 * blockWidth, padding + wingHeight + 2 * blockHeight),
-            (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 2 * blockHeight),
-            (padding + 2 * wingHeight + 2 * blockWidth, padding + 2 * wingHeight + 2 * blockHeight),
-            (padding + 2 * wingHeight + 2 * blockWidth, padding + 3 * blockHeight),
-            (padding + 2 * blockWidth, padding + 2 * wingHeight + 3 * blockHeight),
-            (padding + 2 * wingHeight + blockWidth, padding + 2 * wingHeight + 3 * blockHeight),
-            (padding + blockWidth, padding + 3 * blockHeight),
-            (padding + blockWidth, padding + 2 * wingHeight + 2 * blockHeight),
-            (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight),
-            (padding + wingHeight, padding + wingHeight + 2 * blockHeight),
-            (padding, padding + 2 * blockHeight),
-            (padding, padding + 2 * wingHeight + blockHeight),
-            (padding + wingHeight, padding + wingHeight + blockHeight))
+            (padding, padding + cubeHeight + cubeWidth),
+            (padding + 2 * wingHeight + cubeHeight, padding + 2 * wingHeight + 2 * cubeHeight + cubeWidth),
+            (padding + cubeHeight + cubeDepth, padding + 2 * wingHeight + 2 * cubeHeight + cubeWidth),
+            (padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth),
+            (padding + 2 * wingHeight + 2 * cubeHeight + cubeDepth, padding + 2 * wingHeight + cubeHeight + cubeWidth),
+            (padding + 2 * wingHeight + 2 * cubeHeight + cubeDepth + smallWingWidth, padding + 2 * wingHeight + cubeHeight + cubeWidth),
+            (padding + 2 * wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + 2 * wingHeight + cubeHeight + largeWingWidth),
+            (padding + 2 * wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + 2 * wingHeight + cubeHeight),
+            (padding + 2 * cubeHeight + 2 * cubeDepth, padding + cubeHeight),
+            (padding + 2 * wingHeight + 2 * cubeHeight + cubeDepth, padding + cubeHeight),
+            (padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + cubeHeight + wingHeight),
+            (padding + cubeHeight + cubeDepth, padding),
+            (padding + 2 * wingHeight + cubeHeight, padding),
+            (padding, padding + 2 * wingHeight + cubeHeight),
+            (padding, padding + cubeHeight + cubeWidth),
+        )
+
+        # ... the inner edges, ...
+        self.drawPolygon(
+            borderWidth, self.borderColor, None, True, layer,
+            (padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth),
+            (padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight + cubeWidth),
+            (padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight),
+            (padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight),
+            (padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth)
+        )
+
+        # ... the wing folding edges, ...
+        self.drawLine(
+            padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth,
+            padding + 2 * wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth,
+            borderWidth, self.borderColor, False, layer)
+
+        self.drawLine(
+            padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight + cubeWidth,
+            padding + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight + cubeWidth,
+            borderWidth, self.borderColor, False, layer)
+
+        self.drawLine(
+            padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight + cubeWidth,
+            padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + cubeHeight + cubeWidth,
+            borderWidth, self.borderColor, False, layer)
+
+        self.drawLine(
+            padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight,
+            padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + 2 * wingHeight + cubeHeight,
+            borderWidth, self.borderColor, False, layer)
+
+        self.drawLine(
+            padding + wingHeight + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight,
+            padding + 2 * cubeHeight + 2 * cubeDepth, padding + wingHeight + cubeHeight,
+            borderWidth, self.borderColor, False, layer)
+
+        self.drawLine(
+            padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight,
+            padding + 2 * wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight,
+            borderWidth, self.borderColor, False, layer)
+
+        # ... the triangle folding edges, ...
+        self.drawLine(
+            padding + wingHeight, padding + wingHeight + cubeHeight + cubeWidth, 
+            padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth, 
+            padding + wingHeight + cubeHeight, padding + wingHeight + 2 * cubeHeight + cubeWidth, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth, 
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth + cubeHeight, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight, 
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight, padding + wingHeight + cubeHeight, 
+            padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight, padding + wingHeight, 
+            padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight, 
+            borderWidth, self.borderColor, True, layer)
+
+        # ... the inner triangle folding edges, ...
+        self.drawLine(
+            padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth, 
+            padding + wingHeight + cubeHeight - cubeHeight / 2, padding + wingHeight + cubeHeight + cubeWidth + cubeHeight / 2, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth, 
+            padding + wingHeight + cubeHeight + cubeDepth + cubeHeight / 2, padding + wingHeight + cubeHeight + cubeWidth + cubeHeight / 2, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight, 
+            padding + wingHeight + cubeHeight + cubeDepth + cubeHeight / 2, padding + wingHeight + cubeHeight - cubeHeight / 2, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight, 
+            padding + wingHeight + cubeHeight - cubeHeight / 2, padding + wingHeight + cubeHeight - cubeHeight / 2, 
+            borderWidth, self.borderColor, True, layer)
+
+        # ... the middle folding edges, ...
+        self.drawLine(
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight, 
+            padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth, 
+            borderWidth, self.borderColor, True, layer)
+
+        self.drawLine(
+            padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight, 
+            padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth, 
+            borderWidth, self.borderColor, True, layer)
+
+        # ... the inner cutting edges ...
+        self.drawLine(
+            padding + wingHeight + cubeHeight + wingHeight / 2, padding + wingHeight, 
+            padding + wingHeight + cubeHeight + cubeDepth - wingHeight / 2, padding + wingHeight, 
+            borderWidth, self.borderColor, False, layer)
+
+        self.drawLine(
+            padding + wingHeight, padding + wingHeight + cubeHeight + wingHeight / 2, 
+            padding + wingHeight, padding + wingHeight + cubeHeight + cubeWidth - wingHeight / 2, 
+            borderWidth, self.borderColor, False, layer)
+
+        self.drawLine(
+            padding + wingHeight + cubeHeight + wingHeight / 2, padding + wingHeight + 2 * cubeHeight + cubeWidth, 
+            padding + wingHeight + cubeHeight + cubeDepth - wingHeight / 2, padding + wingHeight + 2 * cubeHeight + cubeWidth, 
+            borderWidth, self.borderColor, False, layer)
+
+        # ... and the slots.
+        self.drawPolygon(
+            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            (raspiUsb1OffsetX, raspiUsb1OffsetY),
+            (raspiUsb1OffsetX + raspiUsbWidth, raspiUsb1OffsetY),
+            (raspiUsb1OffsetX + raspiUsbWidth, raspiUsb1OffsetY - raspiUsbHeight),
+            (raspiUsb1OffsetX, raspiUsb1OffsetY - raspiUsbHeight),
+            (raspiUsb1OffsetX, raspiUsb1OffsetY)
+        )
+
+        self.drawPolygon(
+            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            (raspiUsb2OffsetX, raspiUsb2OffsetY),
+            (raspiUsb2OffsetX + raspiUsbWidth, raspiUsb2OffsetY),
+            (raspiUsb2OffsetX + raspiUsbWidth, raspiUsb2OffsetY - raspiUsbHeight),
+            (raspiUsb2OffsetX, raspiUsb2OffsetY - raspiUsbHeight),
+            (raspiUsb2OffsetX, raspiUsb2OffsetY)
+        )
+
+        self.drawPolygon(
+            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            (raspiEthOffsetX, raspiEthOffsetY),
+            (raspiEthOffsetX + raspiEthWidth, raspiEthOffsetY),
+            (raspiEthOffsetX + raspiEthWidth, raspiEthOffsetY - raspiEthHeight),
+            (raspiEthOffsetX, raspiEthOffsetY - raspiEthHeight),
+            (raspiEthOffsetX, raspiEthOffsetY)
+        )
+
+        self.drawPolygon(
+            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            (raspiSoundOffsetX, raspiSoundOffsetY),
+            (raspiSoundOffsetX + raspiSoundHeight, raspiSoundOffsetY),
+            (raspiSoundOffsetX + raspiSoundHeight, raspiSoundOffsetY - raspiSoundWidth),
+            (raspiSoundOffsetX, raspiSoundOffsetY - raspiSoundWidth),
+            (raspiSoundOffsetX, raspiSoundOffsetY)
+        )
+
+        self.drawPolygon(
+            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            (raspiHdmiOffsetX, raspiHdmiOffsetY),
+            (raspiHdmiOffsetX + raspiHdmiHeight, raspiHdmiOffsetY),
+            (raspiHdmiOffsetX + raspiHdmiHeight, raspiHdmiOffsetY - raspiHdmiWidth),
+            (raspiHdmiOffsetX, raspiHdmiOffsetY - raspiHdmiWidth),
+            (raspiHdmiOffsetX, raspiHdmiOffsetY)
+        )
+
+        self.drawPolygon(
+            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            (raspiMusbOffsetX, raspiMusbOffsetY),
+            (raspiMusbOffsetX + raspiMusbHeight, raspiMusbOffsetY),
+            (raspiMusbOffsetX + raspiMusbHeight, raspiMusbOffsetY - raspiMusbWidth),
+            (raspiMusbOffsetX, raspiMusbOffsetY - raspiMusbWidth),
+            (raspiMusbOffsetX, raspiMusbOffsetY)
+        )
+
+        self.drawPolygon(
+            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            (raspiSdCardOffsetX, raspiSdCardOffsetY),
+            (raspiSdCardOffsetX + raspiSdCardWidth, raspiSdCardOffsetY),
+            (raspiSdCardOffsetX + raspiSdCardWidth, raspiSdCardOffsetY - raspiSdCardHeight),
+            (raspiSdCardOffsetX, raspiSdCardOffsetY - raspiSdCardHeight),
+            (raspiSdCardOffsetX, raspiSdCardOffsetY)
+        )
+
+
+
+        # self.drawPolygon(
+        #     borderWidth, self.borderColor, self.mainBgColor, False, layer,
+        #     (padding + wingHeight, padding + wingHeight + blockHeight),
+        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight),
+        #     (padding + 2 * blockWidth, padding + blockHeight),
+        #     (padding + 2 * blockWidth, padding + 2 * wingHeight),
+        #     (padding + 2 * wingHeight + 2 * blockWidth, padding),
+        #     (padding + 3 * blockWidth, padding),
+        #     (padding + 2 * wingHeight + 3 * blockWidth, padding + 2 * wingHeight),
+        #     (padding + 2 * wingHeight + 3 * blockWidth, padding + blockHeight),
+        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
+        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
+        #     (padding + wingHeight + 4 * blockWidth, padding + wingHeight + blockHeight),
+        #     (padding + wingHeight + 4 * blockWidth, padding + wingHeight + 2 * blockHeight),
+        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 2 * blockHeight),
+        #     (padding + 2 * wingHeight + 2 * blockWidth, padding + 2 * wingHeight + 2 * blockHeight),
+        #     (padding + 2 * wingHeight + 2 * blockWidth, padding + 3 * blockHeight),
+        #     (padding + 2 * blockWidth, padding + 2 * wingHeight + 3 * blockHeight),
+        #     (padding + 2 * wingHeight + blockWidth, padding + 2 * wingHeight + 3 * blockHeight),
+        #     (padding + blockWidth, padding + 3 * blockHeight),
+        #     (padding + blockWidth, padding + 2 * wingHeight + 2 * blockHeight),
+        #     (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight),
+        #     (padding + wingHeight, padding + wingHeight + 2 * blockHeight),
+        #     (padding, padding + 2 * blockHeight),
+        #     (padding, padding + 2 * wingHeight + blockHeight),
+        #     (padding + wingHeight, padding + wingHeight + blockHeight))
 
         # ... the inner edges ...
-        self.drawLine(padding + wingHeight, padding + wingHeight + blockHeight, padding + wingHeight,  padding + wingHeight + 2 * blockHeight, borderWidth, self.borderColor, True, layer)
-        self.drawLine(padding + wingHeight + blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
-        self.drawLine(padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
-        self.drawLine(padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + 3 * blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
+        # self.drawLine(padding + wingHeight, padding + wingHeight + blockHeight, padding + wingHeight,  padding + wingHeight + 2 * blockHeight, borderWidth, self.borderColor, True, layer)
+        # self.drawLine(padding + wingHeight + blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
+        # self.drawLine(padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
+        # self.drawLine(padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + 3 * blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
 
-        self.drawPolygon(
-            borderWidth, self.borderColor, None, True, layer,
-            (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight),
-            (padding + wingHeight + blockWidth, padding + wingHeight + 3 * blockHeight),
-            (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 3 * blockHeight),
-            (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 2 * blockHeight),
-            (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight))
+        # self.drawPolygon(
+        #     borderWidth, self.borderColor, None, True, layer,
+        #     (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight),
+        #     (padding + wingHeight + blockWidth, padding + wingHeight + 3 * blockHeight),
+        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 3 * blockHeight),
+        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 2 * blockHeight),
+        #     (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight))
 
-        self.drawPolygon(
-            borderWidth, self.borderColor, None, True, layer,
-            (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight),
-            (padding + wingHeight + 2 * blockWidth, padding + wingHeight), 
-            (padding + wingHeight + 3 * blockWidth, padding + wingHeight),
-            (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
-            (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight))
+        # self.drawPolygon(
+        #     borderWidth, self.borderColor, None, True, layer,
+        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight),
+        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight), 
+        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight),
+        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
+        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight))
 
         # ... and the headline boxes.
-        self.drawSideFooter(padding + wingHeight, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideOneText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideOneHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideOneIcon)
-        self.drawSideFooter(padding + wingHeight + blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideTwoText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideTwoHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideTwoIcon)
-        self.drawSideFooter(padding + wingHeight + 2 * blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideThreeText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideThreeIcon)
-        self.drawSideFooter(padding + wingHeight + 3 * blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideFourText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideFourHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideFourIcon)
+        # self.drawSideFooter(padding + wingHeight, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideOneText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideOneHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideOneIcon)
+        # self.drawSideFooter(padding + wingHeight + blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideTwoText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideTwoHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideTwoIcon)
+        # self.drawSideFooter(padding + wingHeight + 2 * blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideThreeText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideThreeIcon)
+        # self.drawSideFooter(padding + wingHeight + 3 * blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideFourText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideFourHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideFourIcon)
 
-        attrs = {
-            'transform' : 'rotate(90, ' + str(padding + wingHeight + blockWidth + blockWidth / 2) + ',' + str(padding + wingHeight + 2 * blockHeight + blockHeight / 2) + ')' 
-        }
+        # attrs = {
+        #     'transform' : 'rotate(90, ' + str(padding + wingHeight + blockWidth + blockWidth / 2) + ',' + str(padding + wingHeight + 2 * blockHeight + blockHeight / 2) + ')' 
+        # }
 
-        bottomLayer = inkex.etree.SubElement(svg, 'g', attrs)
-        bottomLayer.set(inkex.addNS('label', 'inkscape'), 'Bottom Side')
-        bottomLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
+        # bottomLayer = inkex.etree.SubElement(svg, 'g', attrs)
+        # bottomLayer.set(inkex.addNS('label', 'inkscape'), 'Bottom Side')
+        # bottomLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
 
-        self.drawSideFooter(padding + wingHeight + blockWidth, padding + 3 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, bottomLayer, self.bottomText, self.titleBgColor, self.titleColor, boxHeight / 5, self.bottomHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.bottomIcon)
+        # self.drawSideFooter(padding + wingHeight + blockWidth, padding + 3 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, bottomLayer, self.bottomText, self.titleBgColor, self.titleColor, boxHeight / 5, self.bottomHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.bottomIcon)
 
         # Finally embedd the main logo.
-        if self.logoPath is not None:
-            self.innerImage(padding + wingHeight + 2 * blockWidth, padding + wingHeight, blockWidth, blockHeight, padding, self.logoPath, svg)
-        else:
-            self.log('No path to logo given!')
+        # if self.logoPath is not None:
+        #     self.innerImage(padding + wingHeight + 2 * blockWidth, padding + wingHeight, blockWidth, blockHeight, padding, self.logoPath, svg)
+        # else:
+        #     self.log('No path to logo given!')
 
     def drawSideFooter(self, x, y, w, h, border, borderColor, parent, title, titleBg, titleColor, titleSize, hint, hintBg, hintColor, hintSize, logoPath):
         layer = inkex.etree.SubElement(parent, 'g')
