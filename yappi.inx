@@ -20,10 +20,19 @@
   <param name="hintColor" type="string" _gui-text="Hint Color (RRGGBB hex): ">ffffff</param>
   <param name="hintBgColor" type="string" _gui-text="Hint Background (RRGGBB hex): ">000000</param>
 
-  <param name="logoPath" type="string" _gui-text="Logo path: "></param>
-  <param name="logoBgColor" type="string" _gui-text="Logo Background (RRGGBB hex): ">ffffff</param>
-
   <param name="yappi_config" type="notebook">
+    <page name="yappi_top" _gui-text="Case Top">
+      <param name="topText" type="string" _gui-text="Subhead text: ">My Yappi Pi</param>
+      <param name="topHint" type="string" _gui-text="Subhead hint: ">www.raspberrypi.org</param>
+      <param name="topIcon" type="string" _gui-text="Subhead logo: ">none</param>
+      <param name="topBgColor" type="string" _gui-text="Subhead Background (RRGGBB hex): ">ffffff</param>
+    </page>
+    <page name="yappi_bottom" _gui-text="Case Bottom">
+      <param name="bottomText" type="string" _gui-text="Subhead text: ">Andreas Wilhelm</param>
+      <param name="bottomHint" type="string" _gui-text="Subhead hint: ">www.avedo.net</param>
+      <param name="bottomIcon" type="string" _gui-text="Subhead logo: ">none</param>
+      <param name="bottomBgColor" type="string" _gui-text="Subhead Background (RRGGBB hex): ">ffffff</param>
+    </page>
     <page name="yappi_side_i" _gui-text="Case Side I">
       <param name="sideOneText" type="string" _gui-text="Subhead text: ">Yappi Case</param>
       <param name="sideOneHint" type="string" _gui-text="Subhead hint: ">Yet an Awesome Paper PI</param>
@@ -43,11 +52,6 @@
       <param name="sideFourText" type="string" _gui-text="Subhead text: "></param>
       <param name="sideFourHint" type="string" _gui-text="Subhead hint: "></param>
       <param name="sideFourIcon" type="string" _gui-text="Subhead logo: ">none</param>
-    </page>
-    <page name="yappi_bottom" _gui-text="Case Bottom">
-      <param name="bottomText" type="string" _gui-text="Subhead text: ">Designed by Andreas Wilhelm (www.avedo.net)</param>
-      <param name="bottomHint" type="string" _gui-text="Subhead hint: ">Licensed under the Apache License 2.0.</param>
-      <param name="bottomIcon" type="string" _gui-text="Subhead logo: ">none</param>
     </page>
   </param>
 
