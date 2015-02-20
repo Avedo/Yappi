@@ -25,23 +25,23 @@
 
   <param name="yappi_config" type="notebook">
     <page name="yappi_side_i" _gui-text="Case Side I">
-      <param name="sideOneText" type="string" _gui-text="Subhead text: ">Yet an Awesome Paper PI</param>
-      <param name="sideOneHint" type="string" _gui-text="Subhead hint: ">The new paper crafted Raspberry Pi case</param>
+      <param name="sideOneText" type="string" _gui-text="Subhead text: ">Yappi Case</param>
+      <param name="sideOneHint" type="string" _gui-text="Subhead hint: ">Yet an Awesome Paper PI</param>
       <param name="sideOneIcon" type="string" _gui-text="Subhead logo: ">none</param>
     </page>
     <page name="yappi_side_ii" _gui-text="Case Side II">
-      <param name="sideTwoText" type="string" _gui-text="Subhead text: ">Yet an Awesome Paper PI</param>
-      <param name="sideTwoHint" type="string" _gui-text="Subhead hint: ">The new paper crafted Raspberry Pi case</param>
+      <param name="sideTwoText" type="string" _gui-text="Subhead text: "></param>
+      <param name="sideTwoHint" type="string" _gui-text="Subhead hint: "></param>
       <param name="sideTwoIcon" type="string" _gui-text="Subhead logo: ">none</param>
     </page>
     <page name="yappi_side_iii" _gui-text="Case Side III">
-      <param name="sideThreeText" type="string" _gui-text="Subhead text: ">Yet an Awesome Paper PI</param>
-      <param name="sideThreeHint" type="string" _gui-text="Subhead hint: ">The new paper crafted Raspberry Pi case</param>
+      <param name="sideThreeText" type="string" _gui-text="Subhead text: ">Yappi Case</param>
+      <param name="sideThreeHint" type="string" _gui-text="Subhead hint: ">Yet an Awesome Paper PI</param>
       <param name="sideThreeIcon" type="string" _gui-text="Subhead logo: ">none</param>
     </page>
     <page name="yappi_side_iv" _gui-text="Case Side IV">
-      <param name="sideFourText" type="string" _gui-text="Subhead text: ">Yet an Awesome Paper PI</param>
-      <param name="sideFourHint" type="string" _gui-text="Subhead hint: ">The new paper crafted Raspberry Pi case</param>
+      <param name="sideFourText" type="string" _gui-text="Subhead text: "></param>
+      <param name="sideFourHint" type="string" _gui-text="Subhead hint: "></param>
       <param name="sideFourIcon" type="string" _gui-text="Subhead logo: ">none</param>
     </page>
     <page name="yappi_bottom" _gui-text="Case Bottom">

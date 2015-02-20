@@ -111,6 +111,16 @@ class Yappi(inkex.Effect):
         self.sideFourIcon = self.options.sideFourIcon if self.options.sideFourIcon is not None and os.path.isfile(self.options.sideFourIcon) else None
         self.bottomIcon = self.options.bottomIcon if self.options.bottomIcon is not None and os.path.isfile(self.options.bottomIcon) else None
 
+        # Replace 'none' with '' in strings.
+        self.sideOneText = self.sideOneText if self.sideOneText is not None else ''
+        self.sideOneHint = self.sideOneHint if self.sideOneHint is not None else ''
+        self.sideTwoText = self.sideTwoText if self.sideTwoText is not None else ''
+        self.sideTwoHint = self.sideTwoHint if self.sideTwoHint is not None else ''
+        self.sideThreeText = self.sideThreeText if self.sideThreeText is not None else ''
+        self.sideThreeHint = self.sideThreeHint if self.sideThreeHint is not None else ''
+        self.sideFourText = self.sideFourText if self.sideFourText is not None else ''
+        self.sideFourHint = self.sideFourHint if self.sideFourHint is not None else ''
+
         # Create a new layer, ...
         layer = inkex.etree.SubElement(svg, 'g')
         layer.set(inkex.addNS('label', 'inkscape'), 'Basic Shape')
@@ -127,6 +137,12 @@ class Yappi(inkex.Effect):
 
         padding = wingHeight
         borderWidth = 1
+
+        # ... and the headline boxes.
+        boxHintFontSize = cubeHeight / 25 * 3
+        boxTitleFontSize = cubeHeight / 5
+        boxBorderColor = 'ffffff'
+        boxBorder = 0
 
         raspiUsbWidth = self.unittouu("1.5 cm")
         raspiUsbHeight = self.unittouu("1.6 cm")
@@ -154,12 +170,6 @@ class Yappi(inkex.Effect):
         raspiMusbOffsetY = padding + wingHeight + cubeHeight + self.unittouu("7.9 cm")
         raspiSdCardOffsetX = padding + wingHeight + cubeHeight + self.unittouu("2.2 cm")
         raspiSdCardOffsetY = padding + wingHeight + cubeHeight + cubeWidth
-
-        # ... and the headline boxes.
-        boxWidth = cubeWidth
-        boxHeight = cubeHeight / 4
-        boxBorderColor = 'ffffff'
-        boxBorder = 0
         
         # Draw the basic shape (cutting edges), ...
         self.drawPolygon(
@@ -274,7 +284,7 @@ class Yappi(inkex.Effect):
             padding + wingHeight + cubeHeight - cubeHeight / 2, padding + wingHeight + cubeHeight - cubeHeight / 2, 
             borderWidth, self.borderColor, True, layer)
 
-        # ... the middle folding edges, ...
+        # ... the middle folding edges ...
         self.drawLine(
             padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight, 
             padding + wingHeight + cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth, 
@@ -285,7 +295,7 @@ class Yappi(inkex.Effect):
             padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight + cubeWidth, 
             borderWidth, self.borderColor, True, layer)
 
-        # ... the inner cutting edges ...
+        # ... and the inner cutting edges.
         self.drawLine(
             padding + wingHeight + cubeHeight + wingHeight / 2, padding + wingHeight, 
             padding + wingHeight + cubeHeight + cubeDepth - wingHeight / 2, padding + wingHeight, 
@@ -301,9 +311,42 @@ class Yappi(inkex.Effect):
             padding + wingHeight + cubeHeight + cubeDepth - wingHeight / 2, padding + wingHeight + 2 * cubeHeight + cubeWidth, 
             borderWidth, self.borderColor, False, layer)
 
-        # ... and the slots.
+        # Draw the headline boxes.
+        leftLayerAttrs = {
+            'transform' : 'rotate(270, ' + str(padding + wingHeight + (cubeHeight / 2)) + ',' + str(padding + wingHeight + cubeHeight + (cubeWidth / 2)) + ')' 
+        }
+
+        leftLayer = inkex.etree.SubElement(svg, 'g', leftLayerAttrs)
+        leftLayer.set(inkex.addNS('label', 'inkscape'), 'Left Side')
+        leftLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
+        self.drawSideFooter(padding + wingHeight + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, leftLayer, self.sideOneText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideOneHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideOneIcon)
+
+        topLayer = inkex.etree.SubElement(svg, 'g', {})
+        topLayer.set(inkex.addNS('label', 'inkscape'), 'Top Side')
+        topLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
+        self.drawSideFooter(padding + wingHeight + cubeHeight, padding + wingHeight, cubeDepth, cubeHeight, boxBorder, boxBorderColor, topLayer, self.sideTwoText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideTwoHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideTwoIcon)
+
+        rightLayerAttrs = {
+            'transform' : 'rotate(90, ' + str(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2)) + ',' + str(padding + wingHeight + cubeHeight + (cubeWidth / 2)) + ')' 
+        }
+
+        rightLayer = inkex.etree.SubElement(svg, 'g', rightLayerAttrs)
+        rightLayer.set(inkex.addNS('label', 'inkscape'), 'Right Side')
+        rightLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
+        self.drawSideFooter(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, rightLayer, self.sideThreeText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideThreeIcon)
+
+        bottomLayerAttrs = {
+            'transform' : 'rotate(180, ' + str(padding + wingHeight + cubeHeight + (cubeDepth / 2)) + ',' + str(padding + wingHeight + cubeHeight + cubeWidth + (cubeHeight / 2)) + ')' 
+        }
+
+        bottomLayer = inkex.etree.SubElement(svg, 'g', bottomLayerAttrs)
+        bottomLayer.set(inkex.addNS('label', 'inkscape'), 'Bottom Side')
+        bottomLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
+        self.drawSideFooter(padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth, cubeDepth, cubeHeight, boxBorder, boxBorderColor, bottomLayer, self.sideFourText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideFourHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideFourIcon)
+
+        # ... and the cutting edges for the slots.
         self.drawPolygon(
-            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            borderWidth, self.borderColor, self.mainBgColor, False, topLayer,
             (raspiUsb1OffsetX, raspiUsb1OffsetY),
             (raspiUsb1OffsetX + raspiUsbWidth, raspiUsb1OffsetY),
             (raspiUsb1OffsetX + raspiUsbWidth, raspiUsb1OffsetY - raspiUsbHeight),
@@ -312,7 +355,7 @@ class Yappi(inkex.Effect):
         )
 
         self.drawPolygon(
-            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            borderWidth, self.borderColor, self.mainBgColor, False, topLayer,
             (raspiUsb2OffsetX, raspiUsb2OffsetY),
             (raspiUsb2OffsetX + raspiUsbWidth, raspiUsb2OffsetY),
             (raspiUsb2OffsetX + raspiUsbWidth, raspiUsb2OffsetY - raspiUsbHeight),
@@ -321,7 +364,7 @@ class Yappi(inkex.Effect):
         )
 
         self.drawPolygon(
-            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            borderWidth, self.borderColor, self.mainBgColor, False, topLayer,
             (raspiEthOffsetX, raspiEthOffsetY),
             (raspiEthOffsetX + raspiEthWidth, raspiEthOffsetY),
             (raspiEthOffsetX + raspiEthWidth, raspiEthOffsetY - raspiEthHeight),
@@ -329,8 +372,18 @@ class Yappi(inkex.Effect):
             (raspiEthOffsetX, raspiEthOffsetY)
         )
 
+        rightLayer2Attrs = {
+            'transform' : 'rotate(0, ' + str(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2)) + ',' + str(padding + wingHeight + cubeHeight + (cubeWidth / 2)) + ')' 
+        }
+
+        rightLayer2 = inkex.etree.SubElement(svg, 'g', rightLayer2Attrs)
+        rightLayer2.set(inkex.addNS('label', 'inkscape'), 'Right Side')
+        rightLayer2.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
+        self.drawSideFooter(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, rightLayer, self.sideThreeText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideThreeIcon)
+
+
         self.drawPolygon(
-            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            borderWidth, self.borderColor, self.mainBgColor, False, rightLayer2,
             (raspiSoundOffsetX, raspiSoundOffsetY),
             (raspiSoundOffsetX + raspiSoundHeight, raspiSoundOffsetY),
             (raspiSoundOffsetX + raspiSoundHeight, raspiSoundOffsetY - raspiSoundWidth),
@@ -339,7 +392,7 @@ class Yappi(inkex.Effect):
         )
 
         self.drawPolygon(
-            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            borderWidth, self.borderColor, self.mainBgColor, False, rightLayer2,
             (raspiHdmiOffsetX, raspiHdmiOffsetY),
             (raspiHdmiOffsetX + raspiHdmiHeight, raspiHdmiOffsetY),
             (raspiHdmiOffsetX + raspiHdmiHeight, raspiHdmiOffsetY - raspiHdmiWidth),
@@ -348,7 +401,7 @@ class Yappi(inkex.Effect):
         )
 
         self.drawPolygon(
-            borderWidth, self.borderColor, self.mainBgColor, False, layer,
+            borderWidth, self.borderColor, self.mainBgColor, False, rightLayer2,
             (raspiMusbOffsetX, raspiMusbOffsetY),
             (raspiMusbOffsetX + raspiMusbHeight, raspiMusbOffsetY),
             (raspiMusbOffsetX + raspiMusbHeight, raspiMusbOffsetY - raspiMusbWidth),
@@ -364,63 +417,6 @@ class Yappi(inkex.Effect):
             (raspiSdCardOffsetX, raspiSdCardOffsetY - raspiSdCardHeight),
             (raspiSdCardOffsetX, raspiSdCardOffsetY)
         )
-
-
-
-        # self.drawPolygon(
-        #     borderWidth, self.borderColor, self.mainBgColor, False, layer,
-        #     (padding + wingHeight, padding + wingHeight + blockHeight),
-        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight),
-        #     (padding + 2 * blockWidth, padding + blockHeight),
-        #     (padding + 2 * blockWidth, padding + 2 * wingHeight),
-        #     (padding + 2 * wingHeight + 2 * blockWidth, padding),
-        #     (padding + 3 * blockWidth, padding),
-        #     (padding + 2 * wingHeight + 3 * blockWidth, padding + 2 * wingHeight),
-        #     (padding + 2 * wingHeight + 3 * blockWidth, padding + blockHeight),
-        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
-        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
-        #     (padding + wingHeight + 4 * blockWidth, padding + wingHeight + blockHeight),
-        #     (padding + wingHeight + 4 * blockWidth, padding + wingHeight + 2 * blockHeight),
-        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 2 * blockHeight),
-        #     (padding + 2 * wingHeight + 2 * blockWidth, padding + 2 * wingHeight + 2 * blockHeight),
-        #     (padding + 2 * wingHeight + 2 * blockWidth, padding + 3 * blockHeight),
-        #     (padding + 2 * blockWidth, padding + 2 * wingHeight + 3 * blockHeight),
-        #     (padding + 2 * wingHeight + blockWidth, padding + 2 * wingHeight + 3 * blockHeight),
-        #     (padding + blockWidth, padding + 3 * blockHeight),
-        #     (padding + blockWidth, padding + 2 * wingHeight + 2 * blockHeight),
-        #     (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight),
-        #     (padding + wingHeight, padding + wingHeight + 2 * blockHeight),
-        #     (padding, padding + 2 * blockHeight),
-        #     (padding, padding + 2 * wingHeight + blockHeight),
-        #     (padding + wingHeight, padding + wingHeight + blockHeight))
-
-        # ... the inner edges ...
-        # self.drawLine(padding + wingHeight, padding + wingHeight + blockHeight, padding + wingHeight,  padding + wingHeight + 2 * blockHeight, borderWidth, self.borderColor, True, layer)
-        # self.drawLine(padding + wingHeight + blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
-        # self.drawLine(padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
-        # self.drawLine(padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockWidth, padding + wingHeight + 3 * blockWidth,  padding + wingHeight + 2 * blockWidth, borderWidth, self.borderColor, True, layer)
-
-        # self.drawPolygon(
-        #     borderWidth, self.borderColor, None, True, layer,
-        #     (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight),
-        #     (padding + wingHeight + blockWidth, padding + wingHeight + 3 * blockHeight),
-        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 3 * blockHeight),
-        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + 2 * blockHeight),
-        #     (padding + wingHeight + blockWidth, padding + wingHeight + 2 * blockHeight))
-
-        # self.drawPolygon(
-        #     borderWidth, self.borderColor, None, True, layer,
-        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight),
-        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight), 
-        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight),
-        #     (padding + wingHeight + 3 * blockWidth, padding + wingHeight + blockHeight),
-        #     (padding + wingHeight + 2 * blockWidth, padding + wingHeight + blockHeight))
-
-        # ... and the headline boxes.
-        # self.drawSideFooter(padding + wingHeight, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideOneText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideOneHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideOneIcon)
-        # self.drawSideFooter(padding + wingHeight + blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideTwoText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideTwoHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideTwoIcon)
-        # self.drawSideFooter(padding + wingHeight + 2 * blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideThreeText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideThreeIcon)
-        # self.drawSideFooter(padding + wingHeight + 3 * blockWidth, padding + 2 * blockHeight + wingHeight - boxHeight, boxWidth, boxHeight, boxBorder, boxBorderColor, svg, self.sideFourText, self.titleBgColor, self.titleColor, boxHeight / 5, self.sideFourHint, self.hintBgColor, self.hintColor, boxHeight / 25 * 3, self.sideFourIcon)
 
         # attrs = {
         #     'transform' : 'rotate(90, ' + str(padding + wingHeight + blockWidth + blockWidth / 2) + ',' + str(padding + wingHeight + 2 * blockHeight + blockHeight / 2) + ')' 
@@ -444,10 +440,10 @@ class Yappi(inkex.Effect):
         layer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
 
         self.drawTextBox(x, y, w, h, border, borderColor, titleBg, layer, title, titleColor, titleSize, True)
-        self.drawTextBox(x, y - h / 5 , w, h / 5, border, borderColor, hintBg, layer, hint, hintColor, hintSize, False)
+        self.drawTextBox(x, y + h - h / 5 , w, h / 5, border, borderColor, hintBg, layer, hint, hintColor, hintSize, False)
 
         if logoPath is not None:
-            self.innerImage(x + w - h / 10 * 12, y, h, h, h / 10, logoPath, layer)
+            self.innerImage(x + w - h / 10 * 11, y, h, h, h / 10, logoPath, layer)
         else:
             self.log('No path to logo given!')
 
