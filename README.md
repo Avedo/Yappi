@@ -1,10 +1,10 @@
 # Yappi
 
-Yet an Awesome Paper PI
+Yappi - Yet an Awesome Paper PI - is a plugin for the famous vector graphics software **Inkscape**.
 
 ## Installation
 
-Yappi is a plugin for the famous vector graphics software **Inkscape**. To install this plugin you should first download the sources from GitHub:
+To install this plugin you should first download the sources from GitHub:
 
     $ git clone https://github.com/Avedo/Yappi
 
