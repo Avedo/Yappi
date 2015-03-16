@@ -22,5 +22,6 @@ The Yappi Inkscape plugin is licensed under the terms of the Apache License 2.0.
 
 ## Examples and Screenshots
 
-![](./yappi-case.png)
-![](./yappi-case-pi.png)
+![](./examples/yappi-case.png)
+![](./examples/yappi-case-pi.png)
+![](./examples/kano-yappi.png)

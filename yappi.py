@@ -202,12 +202,12 @@ class Yappi(inkex.Effect):
         leftLayer = inkex.etree.SubElement(svg, 'g', leftLayerAttrs)
         leftLayer.set(inkex.addNS('label', 'inkscape'), 'Left Side')
         leftLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
-        self.drawSide(padding + wingHeight + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, leftLayer, self.sideOneText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideOneHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideOneIcon)
+        self.drawSide(padding + wingHeight + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, leftLayer, self.sideOneText, self.titleBgColor, self.textColor, boxTitleFontSize, self.sideOneHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideOneIcon)
 
         topLayer = inkex.etree.SubElement(svg, 'g', {})
         topLayer.set(inkex.addNS('label', 'inkscape'), 'Top Side')
         topLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
-        self.drawSide(padding + wingHeight + cubeHeight, padding + wingHeight, cubeDepth, cubeHeight, boxBorder, boxBorderColor, topLayer, self.sideTwoText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideTwoHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideTwoIcon)
+        self.drawSide(padding + wingHeight + cubeHeight, padding + wingHeight, cubeDepth, cubeHeight, boxBorder, boxBorderColor, topLayer, self.sideTwoText, self.titleBgColor, self.textColor, boxTitleFontSize, self.sideTwoHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideTwoIcon)
 
         rightLayerAttrs = {
             'transform' : 'rotate(90, ' + str(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2)) + ',' + str(padding + wingHeight + cubeHeight + (cubeWidth / 2)) + ')' 
@@ -216,7 +216,7 @@ class Yappi(inkex.Effect):
         rightLayer = inkex.etree.SubElement(svg, 'g', rightLayerAttrs)
         rightLayer.set(inkex.addNS('label', 'inkscape'), 'Right Side')
         rightLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
-        self.drawSide(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, rightLayer, self.sideThreeText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideThreeIcon)
+        self.drawSide(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, rightLayer, self.sideThreeText, self.titleBgColor, self.textColor, boxTitleFontSize, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideThreeIcon)
 
         bottomLayerAttrs = {
             'transform' : 'rotate(180, ' + str(padding + wingHeight + cubeHeight + (cubeDepth / 2)) + ',' + str(padding + wingHeight + cubeHeight + cubeWidth + (cubeHeight / 2)) + ')' 
@@ -225,7 +225,7 @@ class Yappi(inkex.Effect):
         bottomLayer = inkex.etree.SubElement(svg, 'g', bottomLayerAttrs)
         bottomLayer.set(inkex.addNS('label', 'inkscape'), 'Bottom Side')
         bottomLayer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
-        self.drawSide(padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth, cubeDepth, cubeHeight, boxBorder, boxBorderColor, bottomLayer, self.sideFourText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideFourHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideFourIcon)
+        self.drawSide(padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight + cubeWidth, cubeDepth, cubeHeight, boxBorder, boxBorderColor, bottomLayer, self.sideFourText, self.titleBgColor, self.textColor, boxTitleFontSize, self.sideFourHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideFourIcon)
 
         # ... and the cutting edges for the slots.
         self.drawPolygon(
@@ -262,7 +262,7 @@ class Yappi(inkex.Effect):
         rightLayer2 = inkex.etree.SubElement(svg, 'g', rightLayer2Attrs)
         rightLayer2.set(inkex.addNS('label', 'inkscape'), 'Right Side')
         rightLayer2.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
-        self.drawSide(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, rightLayer, self.sideThreeText, self.titleBgColor, self.titleColor, boxTitleFontSize, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideThreeIcon)
+        self.drawSide(padding + wingHeight + cubeHeight + cubeDepth + (cubeHeight / 2) - (cubeWidth / 2), padding + wingHeight + cubeHeight + (cubeWidth / 2) - (cubeHeight / 2), cubeWidth, cubeHeight, boxBorder, boxBorderColor, rightLayer, self.sideThreeText, self.titleBgColor, self.textColor, boxTitleFontSize, self.sideThreeHint, self.hintBgColor, self.hintColor, boxHintFontSize, self.sideThreeIcon)
 
         self.drawPolygon(
             borderWidth, self.borderColor, self.mainBgColor, False, rightLayer2,
@@ -301,7 +301,7 @@ class Yappi(inkex.Effect):
         )
 
         # Draw the top ...
-        self.drawTopBot(padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight, cubeDepth, cubeWidth, boxBorder, boxBorderColor, svg, self.topText, self.topBgColor, self.titleColor, cubeHeight / 5, self.bottomHint, cubeHeight / 25 * 3, self.topIcon)
+        self.drawTopBot(padding + wingHeight + 2 * cubeHeight + cubeDepth, padding + wingHeight + cubeHeight, cubeDepth, cubeWidth, boxBorder, boxBorderColor, svg, self.topText, self.topBgColor, self.titleColor, cubeHeight / 5, self.topHint, cubeHeight / 25 * 3, self.topIcon)
 
         # ... and the bottom layer.
         self.drawTopBot(padding + wingHeight + cubeHeight, padding + wingHeight + cubeHeight, cubeDepth, cubeWidth, boxBorder, boxBorderColor, svg, self.bottomText, self.bottomBgColor, self.titleColor, cubeHeight / 5, self.bottomHint, cubeHeight / 25 * 3, self.bottomIcon)
